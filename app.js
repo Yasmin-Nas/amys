@@ -45,8 +45,7 @@ const jsonParser = bodyParser.json()
 ********************/
 // inserir novo ingrediente
 
-const {novoIngrediente} = require('./controller/controllerIngrediente')
-const {insertIngrediente} = require('./model/DAO/ingrediente')
+
 
 // Selecionar todos os ingredientes - tbl_ ingredintes
 app.get('/v1/ingrediente', cors(), async function(request, response, next){
@@ -630,7 +629,7 @@ app.get('/v1/tipoBebida/:id', cors(), async function(request, response, next){
  ************************************/
 
 // inserir produtos 
-app.post('/v1/Produtos', cors(), jsonParser, async function (request, response) {
+app.post('/v1/Produto', cors(), jsonParser, async function (request, response) {
     let statusCode;
     let message;
     let headerContentType;
@@ -656,8 +655,8 @@ app.post('/v1/Produtos', cors(), jsonParser, async function (request, response) 
             // Chamando a funcao novoAluno da controller e encaminha os dados do body
             const novoProduto = await controllerProduto.novoProduto(dadosBody)
 
-            statusCode = novoTipoBebida.status
-            message = novoTipoBebida.message
+            statusCode = novoProduto.status
+            message = novoProduto.message
            
             
         }
@@ -689,7 +688,7 @@ app.get('/v1/Produtos', cors(), async function(request, response, next){
     let message;
 
     // Import do arquivo ControllerAluno
-    const controllerProduto = require('./controller/controllerIngrediente')
+    const controllerProduto = require('./controller/controllerProduto')
 
     // Retorna todos os alunos existentes no banco de dados
     const dadosProdutos = await controllerProduto.listarProdutos();
@@ -712,6 +711,85 @@ app.get('/v1/Produtos', cors(), async function(request, response, next){
      response.status(statusCode)
      response.json(message);
 });
+
+//Buscar produto pelo id 
+app.get('/v1/Produto/:id', cors(), async function(request, response, next){
+    
+    let statusCode;
+    let message;
+    let id = request.params.id;
+
+    if(id != " " && id != undefined) 
+    {
+        
+        // Import do arquivo ControllerAluno
+        const controllerProduto = require('./controller/controllerProduto')
+
+        // Retorna todos os alunos existentes no banco de dados
+        const dadosProduto = await controllerProduto.buscarProduto(id);
+    
+    
+
+    // Valida se existe retorno de dados
+    if (dadosProduto) 
+    {
+        statusCode = 200;
+        message = dadosProduto;
+    }
+
+    else 
+    {
+        statusCode = 404;
+        message = MESSAGE_ERROR.NOT_FOUND_DB
+    }
+
+    } 
+    
+    else
+    {
+    statusCode = 400;
+    message = MESSAGE_ERROR.REQUIRED_ID
+    }
+    
+     response.status(statusCode)
+     response.json(message);
+
+});
+
+//Deletar produto
+app.delete('/v1/Produto/:id', cors(), jsonParser, async function (request, response)
+{
+    let statusCode;
+    let message;
+    let id = request.params.id
+
+
+    // Validação do Id na requisição
+        if(id != " " && id != undefined)
+            {
+             // Import do arquivo da controller de aluno
+            const controllerProduto =  require('./controller/controllerProduto')
+
+            // Validar se existe o ID no Banco de Dados
+            const buscarProduto = await controllerProduto.buscarProduto(id)
+
+            // Chamando a funcao para excluir um item
+            const produto = await controllerProduto.excluirProduto(id)
+
+            statusCode = produto.status
+            message = produto.message
+            }
+            
+        else
+            {
+                statusCode = 400;
+                message = MESSAGE_ERROR.REQUIRED_ID;
+            }
+
+        response.status(statusCode)
+        response.json(message)
+})
+
 
 
 

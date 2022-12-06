@@ -220,5 +220,7 @@ module.exports =
     selectAllIngredientes,
     deleteIngrediente,
     selectIngredienteById,
+    selectTipoBebidaById,
+    selectTipoPizzaById
   
 }

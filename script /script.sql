@@ -1,3 +1,10 @@
+create database db_amys_pizzaria;
+
+use db_amys_pizzaria;
+
+
+show tables; 
+
 create table tbl_cliente (
 id int not null auto_increment primary key,
 nome varchar (80) not null,
@@ -31,6 +38,8 @@ nome varchar(20) not null,
 acompanhamentos text not null, 
 unique index(id)
 );
+
+alter table tbl_ingrediente modify column nome varchar(35) not null; 
 
 
 
@@ -102,18 +111,19 @@ create table tbl_produto (
 id int not null auto_increment primary key,
 nome varchar(30) not null, 
 preco varchar(7) not null,
-
-
-
-
 unique index(id)
 );
 
 
 
+show tables;
+
+
+
+
 create table tbl_pizza (
 id int not null auto_increment primary key,
-status_favorita int not null, 
+
 
 # id tipo pizza
 id_tipo_pizza int not null, # Atributo para receber a FK
@@ -135,12 +145,13 @@ tipo varchar(10) not null,
 unique index(id)
 );
 
+alter table tbl_pizza drop column status_favorita;
 
 
 create table tbl_bebida (
 id int not null auto_increment primary key,
 tamanho varchar(7) not null,
-foto varchar(256) not null,
+
 
 #id tipo bebida 
 id_tipo_bebida int not null, # Atributo para receber a FK
@@ -159,8 +170,11 @@ unique index(id)
 
 
 
+
 create table tbl_tipo_bebida (
 id int not null auto_increment primary key,
 tipo varchar(18) not null, 
 unique index(id)
 );
+
+show tables;

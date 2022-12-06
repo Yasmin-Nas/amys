@@ -136,7 +136,7 @@ const excluirIngrediente = async function(id) {
 }
 }
 
-const buscarIngrediente = async function(id) {
+const buscarProduto = async function(id) {
     // Validação do Id como campo obrigatório
     if (id == '' || id == 'undefined') 
     {
@@ -175,5 +175,5 @@ module.exports = {
     atualizarIngrediente,
     listarIngredientes,
     excluirIngrediente,
-    buscarIngrediente
+    buscarProduto
 }
