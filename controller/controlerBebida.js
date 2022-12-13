@@ -1,16 +1,17 @@
 const {MESSAGE_ERROR, MESSAGE_SUCESS} = require('../modulo/config')
 
-const novoProduto = async function (produto) {
-    if (produto.nome == '' || produto.preco == '' 
-    || produto.nome == undefined || produto.preco == undefined )
+const novoBebida = async function (bebida) {
+    if (bebida.tamanho == '' || bebida.id_tipo_bebida == '' 
+    || bebida.id_produto == '' || bebida.id_produto == undefined
+    || bebida.id_tipo_bebida == undefined || bebida.tamanho == undefined )
     {
 
         return { status: 400, message: MESSAGE_ERROR.REQUIRED_FIELDS}
     } else { 
         
-        const novoProduto = require('../model/DAO/produto.js')
+        const novoBebida = require('../model/DAO/bebida.js')
            
-        const result = await novoProduto.insertProduto(produto);
+        const result = await novoBebida.insertBebida(bebida);
         
         if (result){
             return {status: 201, message: MESSAGE_SUCESS.INSERT_ITEM};
@@ -21,21 +22,21 @@ const novoProduto = async function (produto) {
      }
 }
 
-const listarProdutos = async function () {
+const listarBebida = async function () {
 
-    let dadosProdutosJSON = {}
+    let dadosBebidaJSON = {}
 
-    const {selectAllProdutos} = require ('../model/DAO/produto')
+    const {selectAllBebida} = require ('../model/DAO/bebida.js')
 
-    const dadosProdutos = await selectAllProdutos();
+    const dadosBebida = await selectAllBebida();
 
     
-    if (dadosProdutos) 
+    if (dadosBebida) 
     {
         
     // dadosAlunos.reverse() - Reverter a ordem dos dados -  baixo pra cima
-    dadosProdutosJSON.produtos= dadosProdutos
-    return dadosProdutosJSON
+    dadosBebidaJSON.bebidas = dadosBebida
+    return dadosBebidaJSON
 
     
     }
@@ -46,7 +47,7 @@ const listarProdutos = async function () {
     }
 }
 
-const buscarProduto = async function(id) {
+const buscarBebida = async function(id) {
     // Validação do Id como campo obrigatório
     if (id == '' || id == 'undefined') 
     {
@@ -55,19 +56,19 @@ const buscarProduto = async function(id) {
     
     else
     { 
-    let dadosProdutoJSON = {}
+    let dadosBebidaJSON = {}
 
-    const {selectProdutoById} = require ('../model/DAO/produto')
+    const {selectBebidaById} = require ('../model/DAO/bebida.js')
 
-    const dadosProduto = await selectProdutoById(id);
+    const dadosBebida = await selectBebidaById(id);
 
     
-    if (dadosProduto) 
+    if (dadosBebida) 
     {
         
     // dadosAlunos.reverse() - Reverter a ordem dos dados -  baixo pra cima
-    dadosProdutoJSON.produto= dadosProduto
-    return dadosProdutoJSON
+    dadosBebidaJSON.bebidas = dadosBebida
+    return dadosBebidaJSON
 
     }
         
@@ -78,7 +79,7 @@ const buscarProduto = async function(id) {
     }
 }
 
-const excluirProduto = async function(id) {
+const excluirBebida = async function(id) {
     if (id == '' || id == 'undefined') 
     {
         return {status: 400, message: MESSAGE_ERROR.REQUIRED_ID};
@@ -87,15 +88,15 @@ const excluirProduto = async function(id) {
     else 
     {
         // Validação para verificar se o ID existe no Banco de Dados
-        const produto = await buscarProduto(id)
+        const bebida = await buscarBebida(id)
 
-        if (produto)
+        if (bebida)
     {
             // Import da model de Cursos
-        const apagarProduto = require('../model/DAO/produto')
+        const apagarBebida = require('../model/DAO/bebida.js')
         
         // Chama a funcao para excluir um curso
-        const result = await apagarProduto.deleteProduto(id);
+        const result = await apagarBebida.deleteBebida(id);
         
         if (result)
         {
@@ -116,13 +117,14 @@ const excluirProduto = async function(id) {
 }
 }
 
-const atualizarProduto = async function(produto) {
-    if (produto.id == '' || produto.id == 'undefined') 
+const atualizarBebida = async function(bebida) {
+    if (bebida.id == '' || bebida.id == 'undefined') 
     {
         return {status: 400, message: MESSAGE_ERROR.REQUIRED_ID};
     }
-    else if (produto.nome == '' || produto.preco == '' 
-    || produto.nome == undefined || produto.preco == undefined )
+    else if (bebida.tamanho == '' || bebida.id_tipo_bebida == '' 
+    || bebida.id_produto == '' || bebida.id_produto == undefined
+    || bebida.id_tipo_bebida == undefined || bebida.tamanho == undefined )
     {
 
         return { status: 400, message: MESSAGE_ERROR.REQUIRED_FIELDS}
@@ -131,10 +133,10 @@ const atualizarProduto = async function(produto) {
    else {
         
         // Import da model de Cursos
-        const atualizarProduto = require('../model/DAO/produto.js')
+        const atualizarBebida = require('../model/DAO/bebida.js')
         
         // Chama a funcao para atualizar um curso
-        const result = await atualizarProduto.updateProduto(produto);
+        const result = await atualizarBebida.updateBebida(bebidas);
         
         if (result)
         {
@@ -152,12 +154,10 @@ const atualizarProduto = async function(produto) {
         }
 }
 
-
-module.exports = 
-{
-    listarProdutos,
-    novoProduto,
-    buscarProduto,
-    excluirProduto,
-    atualizarProduto
+module.exports = {
+    listarBebida,
+    excluirBebida,
+    atualizarBebida,
+    novoBebida,
+    buscarBebida
 }

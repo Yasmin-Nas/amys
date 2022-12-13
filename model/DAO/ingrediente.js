@@ -51,8 +51,8 @@ const insertIngrediente = async function (ingrediente) {
     
     }
 
-const updateIngrediente = async function (ingrediente)
-    {
+    const updateIngrediente= async function (ingrediente) {
+    
         try {
             // Import da classe prismaClient, que é responsável pelas interações com o Banco de dados
        const { PrismaClient } = require('@prisma/client');
@@ -61,34 +61,25 @@ const updateIngrediente = async function (ingrediente)
        const prisma = new PrismaClient(); 
     
        let sql = `update tbl_ingrediente set 
-        nome                     = '${ingrediente.nome}', 
+        nome            = '${ingrediente.nome}', 
         acompanhamentos           = '${ingrediente.acompanhamentos}'
-        where id = '${ingrediente.id}'
+       where id = '${ingrediente.id}'
         `;
     
-    
-        // console.log(sql)
-           
+         
        // Executa o script sql no Banco de Dados
        // Este comando permite encaminhar uma variavel contendo o script (executeRaeUnsafe)
        const result = await prisma.$executeRawUnsafe(sql);
     
     
-       // Verifica se o scrpit foi executado com sucesso no Banco de Dados
-       if (result) 
-       {
+       if (result) {
            return true;
-       }
-        
-       else 
-       {
+       }else {
            return false;
        }
+    }
     
-       }
-    
-       catch (error) 
-       {
+       catch (error) {
            return false;
        }
     }

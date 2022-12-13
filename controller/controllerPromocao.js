@@ -1,21 +1,20 @@
-
 const {MESSAGE_ERROR, MESSAGE_SUCESS} = require('../modulo/config.js')
 
-const listarIngredientes = async function () {
+const listarPromocoes = async function () {
 
-    let dadosIngredientesJSON = {}
+    let dadosPromocoesJSON = {}
 
-    const {selectAllIngredientes} = require ('../model/DAO/ingrediente')
+    const {selectAllPromocoes} = require ('../model/DAO/promocao.js')
 
-    const dadosIngredintes = await selectAllIngredientes();
+    const dadosPromocao = await selectAllPromocoes();
 
     
-    if (dadosIngredintes) 
+    if (dadosPromocao) 
     {
         
     // dadosAlunos.reverse() - Reverter a ordem dos dados -  baixo pra cima
-    dadosIngredientesJSON.ingrediente = dadosIngredintes
-    return dadosIngredientesJSON 
+    dadosPromocoesJSON.promocoes = dadosPromocao
+    return dadosPromocoesJSON
 
     
     }
@@ -27,9 +26,10 @@ const listarIngredientes = async function () {
 }
 
 
-const novoIngrediente = async function (ingrediente) {
-    if (ingrediente.nome == '' || ingrediente.acompanhamentos == '' 
-    || ingrediente.nome == undefined || ingrediente.acompanhamentos== undefined )
+const novoPromocao = async function (promocao) {
+    if (promocao.prazo == '' || promocao.nome == '' 
+    || promocao.descricao == '' ||  promocao.prazo == undefined
+    || promocao.nome == undefined || promocao.descricao == ''== undefined )
     {
 
         return { status: 400, message: MESSAGE_ERROR.REQUIRED_FIELDS}
@@ -38,10 +38,10 @@ const novoIngrediente = async function (ingrediente) {
     else  { 
         
         // Import da model de Ingrediente
-        const novoIngrediente = require('../model/DAO/ingrediente.js')
+        const novoPromocao = require('../model/DAO/promocao.js')
         
         // Chama a funcao para inserir um novo ingrediente
-        const result = await novoIngrediente.insertIngrediente(ingrediente);
+        const result = await novoPromocao.insertPromocao(promocao);
         
     //    console.log(result)
         
@@ -62,15 +62,16 @@ const novoIngrediente = async function (ingrediente) {
         }
     }
 
-const atualizarIngrediente = async function (ingrediente) {
+const atualizarPromocao = async function (promocao) {
 
     
-        if (ingrediente.id == '' || ingrediente.id == 'undefined') 
+        if (promocao.id == '' || promocao.id == 'undefined') 
         {
             return {status: 400, message: MESSAGE_ERROR.REQUIRED_ID};
         }
-        else if (ingrediente.nome == '' || ingrediente.acompanhamentos == '' 
-        || ingrediente.nome == undefined || ingrediente.acompanhamentos == undefined  )
+        else if (promocao.prazo == '' || promocao.nome == '' 
+        || promocao.descricao == '' ||  promocao.prazo == undefined
+        || promocao.nome == undefined || promocao.descricao == ''== undefined )
         {
     
             return { status: 400, message: MESSAGE_ERROR.REQUIRED_FIELDS}
@@ -80,10 +81,10 @@ const atualizarIngrediente = async function (ingrediente) {
     else {
             
             // Import da model de Alunos
-            const atualizarIngrediente = require('../model/DAO/ingrediente.js')
+            const atualizarPromocao = require('../model/DAO/promocao.js')
             
             // Chama a funcao para atualizar um aluno
-            const result = await atualizarIngrediente.updateIngrediente(ingrediente);
+            const result = await atualizarPromocao.updatePromocao(promocao);
             
             if (result)
             {
@@ -101,7 +102,7 @@ const atualizarIngrediente = async function (ingrediente) {
             }
     }
 
-const excluirIngrediente = async function(id) {
+const excluirPromocao = async function(id) {
     if (id == '' || id == 'undefined') 
     {
         return {status: 400, message: MESSAGE_ERROR.REQUIRED_ID};
@@ -110,15 +111,15 @@ const excluirIngrediente = async function(id) {
     else 
     {
         // Validação para verificar se o ID existe no Banco de Dados
-        const ingrediente = await buscarIngrediente(id)
+        const promocao = await buscarPromocao(id)
 
-        if (ingrediente)
+        if (promocao)
     {
             // Import da model de Cursos
-        const apagarIngrediente = require('../model/DAO/ingrediente')
+        const apagarPromocao = require('../model/DAO/promocao.js')
         
         // Chama a funcao para excluir um curso
-        const result = await apagarIngrediente.deleteIngrediente(id);
+        const result = await apagarPromocao.deletePromocao(id);
         
         if (result)
         {
@@ -139,7 +140,7 @@ const excluirIngrediente = async function(id) {
 }
 }
 
-const buscarIngrediente = async function(id) {
+const buscarPromocao = async function(id) {
     // Validação do Id como campo obrigatório
     if (id == '' || id == 'undefined') 
     {
@@ -148,19 +149,19 @@ const buscarIngrediente = async function(id) {
     
     else
     { 
-    let dadosIngredientesJSON = {}
+    let dadosPromocoesJSON = {}
 
-    const {selectIngredienteById} = require ('../model/DAO/ingrediente')
+    const {selectPromocaoById} = require ('../model/DAO/promocao.js')
 
-    const dadosIngredintes = await selectIngredienteById(id);
+    const dadosPromocoes = await selectPromocaoById(id);
 
     
-    if (dadosIngredintes) 
+    if (dadosPromocoes) 
     {
         
     // dadosAlunos.reverse() - Reverter a ordem dos dados -  baixo pra cima
-    dadosIngredientesJSON.ingrediente = dadosIngredintes
-    return dadosIngredientesJSON
+    dadosPromocoesJSON.promocao = dadosPromocoes
+    return dadosPromocoesJSON
 
     }
         
@@ -174,9 +175,10 @@ const buscarIngrediente = async function(id) {
     
 
 module.exports = {
-    novoIngrediente,
-    atualizarIngrediente,
-    listarIngredientes,
-    excluirIngrediente,
-    buscarIngrediente
+    novoPromocao,
+    atualizarPromocao,
+   
+    buscarPromocao, 
+    listarPromocoes,
+    excluirPromocao
 }
